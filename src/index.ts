@@ -5,8 +5,10 @@ import { Server } from "colyseus";
 import { monitor } from "@colyseus/monitor";
 // import socialRoutes from "@colyseus/social/express"
 
-//import { MyRoom } from "./rooms/MyRoom";
-import { MainLobby } from "./rooms/main-lobby";
+// to fix the import paths
+import 'module-alias/register';
+import { MainLobby } from "@rooms/main-lobby";
+import { GameRoom } from "@rooms/game-room";
 
 const port = Number(process.env.PORT || 8080);
 const app = express()
@@ -21,6 +23,7 @@ const gameServer = new Server({
 
 // register your room handlers
 gameServer.define('main_lobby', MainLobby);
+gameServer.define('game_room', GameRoom);
 
 /**
  * Register @colyseus/social routes

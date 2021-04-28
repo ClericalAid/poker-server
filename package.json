@@ -29,6 +29,11 @@
     "colyseus": "^0.14.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "express-jwt": "^5.3.1"
+    "express-jwt": "^5.3.1",
+    "module-alias": "^2.2.2"
+  },
+  "_moduleAliases": {
+    "@rooms": "src/rooms",
+    "@matchmaker": "src/matchmaker"
   }
 }
