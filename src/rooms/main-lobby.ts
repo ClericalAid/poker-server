@@ -7,7 +7,6 @@ export class MainLobby extends Room {
       console.log(message);
     });
 
-
     this.onMessage("public", (client, message) => {
       console.log(message);
       this.broadcast("public", message);
@@ -20,7 +19,6 @@ export class MainLobby extends Room {
       this.send(client, "")
       */
     });
-
   }
 
   onJoin (client: Client, options: any) {
