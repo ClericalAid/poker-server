@@ -1,6 +1,8 @@
 import { Room, Client} from "colyseus";
+import { Deck } from "@game/deck";
 
 export class GameRoom extends Room {
+  deck: Deck = new Deck();
 
   onCreate (options: any) {
     this.onMessage("test", (client, message) => {
@@ -18,6 +20,6 @@ export class GameRoom extends Room {
   }
 
   onDispose() {
-    console.log("fake news");
+    console.log("dispose fake news");
   }
 }

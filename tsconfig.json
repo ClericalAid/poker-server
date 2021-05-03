@@ -10,7 +10,8 @@
     "baseUrl": "./src",
     "paths": {
       "@rooms/*": ["rooms/*"],
-      "@matchmaker/*": ["matchmaker/*"]
+      "@matchmaker/*": ["matchmaker/*"],
+      "@game/*": ["game/*"]
     }
   }
 }
