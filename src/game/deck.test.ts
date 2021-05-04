@@ -19,8 +19,6 @@ describe("The deck", function(){
   it("shuffles the deck", async () => {
     expect(testDeck.deck.length).toBe(52);
     await testDeck.shuffle();
-    console.log(mockedSecureRandom.mock.calls);
-    console.log(mockedSecureRandom.mock.calls.length);
     expect(testDeck.deck[51].rank).toBe(3);
   });
 

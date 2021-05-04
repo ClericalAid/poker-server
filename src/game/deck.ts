@@ -7,14 +7,9 @@ import secureRandomNumber from "random-number-csprng";
  * suit - The suit of the card
  * rank - The value of the card ranging from 2 to 14. 14 = Ace, 13 = King...
  */
-class Card {
+export type Card = {
   suit: string;
   rank: number;
-
-  constructor(suit: string, rank: number) {
-    this.suit = suit;
-    this.rank = rank;
-  }
 }
 
 /**
@@ -39,8 +34,7 @@ export class Deck {
 
     for (const suit of this.allSuits){
       for (const rank of this.rankRange){
-        var card = new Card(suit, rank);
-        this.deck.push(card);
+        this.deck.push({suit: suit, rank: rank});
       }
     }
   }
