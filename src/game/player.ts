@@ -1,5 +1,5 @@
 import { Deck, Card } from "./deck";
-//const handRanker = require('./hand-ranker');
+import {HandRanker} from "./hand-ranker";
 
 /**
  * Player
@@ -11,7 +11,7 @@ class Player{
   // Player state
   stack: number = 200;
   hand: Card[];
-  handRanker: any;
+  handRanker: HandRanker;
   folded: boolean = true;
   isAllIn: boolean = false;
   sittingOut:boolean = false;
