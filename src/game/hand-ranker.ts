@@ -61,18 +61,18 @@ import {Card} from "./deck";
  */
 export class HandRanker{
   // constants
-  STRAIGHT_FLUSH: number = 9;
-  QUAD: number= 8;
-  FULL_HOUSE: number = 7;
-  FLUSH: number = 6;
-  STRAIGHT: number = 5;
-  TRIPLE: number = 4;
-  TWO_PAIR: number= 3;
-  PAIR: number = 2;
-  HIGH_CARD: number = 1;
-  HAND_SIZE: number = 7;
+  STRAIGHT_FLUSH = 9;
+  QUAD= 8;
+  FULL_HOUSE = 7;
+  FLUSH = 6;
+  STRAIGHT = 5;
+  TRIPLE = 4;
+  TWO_PAIR = 3;
+  PAIR = 2;
+  HIGH_CARD = 1;
+  HAND_SIZE = 7;
 
-  ACE: number = 14;
+  ACE = 14;
 
   // Card organizers
   cardValueHistogram = new Map();
@@ -84,10 +84,9 @@ export class HandRanker{
   allSuits: number[][] = [];
 
   // Hand strength
-  handRank: number = 0;
+  handRank = 0;
   handValue: number[] = [];
-  handScore: number[] = null;
-
+  handScore: number[] = [];
 
   constructor(){
     this.allSuits.push(this.spades);

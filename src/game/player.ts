@@ -9,29 +9,29 @@ class Player{
   uuid: number;
 
   // Player state
-  stack: number = 200;
+  stack = 200;
   hand: Card[];
   handRanker: HandRanker;
-  folded: boolean = true;
-  isAllIn: boolean = false;
-  sittingOut:boolean = false;
-  disconnected: boolean = false;
+  folded = true;
+  isAllIn = false;
+  sittingOut= false;
+  disconnected = false;
 
   // Bet sizing and valid moves
-  totalInvestment: number = 0;
-  maxRaise: number = 0;
-  minRaiseTotal: number = 0;
-  amountToCall: number = 0;
-  canCall: boolean = false;
-  canCallIn: boolean = false;
-  canRaise: boolean = false;
-  canCheck: boolean = false; // might not be needed. Check is just calling 0.
-  canFold: boolean = false;
-  canAllIn: boolean = false;
+  totalInvestment = 0;
+  maxRaise = 0;
+  minRaiseTotal = 0;
+  amountToCall = 0;
+  canCall = false;
+  canCallIn = false;
+  canRaise = false;
+  canCheck = false; // might not be needed. Check is just calling 0.
+  canFold = false;
+  canAllIn = false;
 
   // Game controller variables
-  chipsWon: number = 0;
-  lastBetSize: number = 0;
+  chipsWon = 0;
+  lastBetSize = 0;
 
   constructor(username: string, uuid: number){
     this.name = username;
