@@ -4,9 +4,9 @@ import {HandRanker} from "./hand-ranker";
 /**
  * Player
  */
-class Player{
+export class Player{
   name: string;
-  uuid: number;
+  uuid: string;
 
   // Player state
   stack = 200;
@@ -33,7 +33,7 @@ class Player{
   chipsWon = 0;
   lastBetSize = 0;
 
-  constructor(username: string, uuid: number){
+  constructor(username: string, uuid: string){
     this.name = username;
     this.uuid = uuid;
   }
