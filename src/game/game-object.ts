@@ -5,7 +5,10 @@ import { Player } from "./player";
  * Game
  * Game object which keeps track of the state and flow of the game.
  */
-class Game{
+
+const SIX_MAX = 6;
+
+export class GameObject{
   PREFLOP = 0;
   FLOP = 3;
   TURN = 4
@@ -47,8 +50,10 @@ class Game{
   sidePotTotal: number[] = [];
   sidePotParticipants: Player[][] = [];
 
-  constructor(){
+  constructor(tableSize = SIX_MAX){
     // Game state
+    this.tableSize = tableSize;
+    this.players = new Array(this.tableSize);
     this.players.fill(null);
   }
 
@@ -77,27 +82,23 @@ class Game{
     }
   }
 
-  /**
-   * add_user
-   *
-   * Adds a user to the table.
-   */
-  add_user(userName: string, uuid: string){
+  add_player(userName: string, uuid: string){
+    if (this.playerCount === this.tableSize){
+      console.log("THROW ERROR? This operation should be blocked somewhere");
+      return;
+    }
     var addPlayer = new Player(userName, uuid);
     this.players[this.nextEmptySeat] = addPlayer;
-    //this.lastAddedPlayer = this.nextEmptySeat;
     this.update_next_empty_seat();
     this.playerCount += 1;
-    this.foldedPlayers += 1; // players enter into a folded state by default
-
-    //this.playerUserMapping.add_entry(addPlayer, user, this.lastAddedPlayer);
+    this.foldedPlayers += 1;
   }
 
   /**
    * remove_player
    * input:
    *    player
-   * Removes the player
+   * Removes the player from the game
    */
   remove_player(player: Player){
     // var playerIndex = this.playerUserMapping.get_index(player)
@@ -127,7 +128,7 @@ class Game{
   }
 
   /**
-   * disconnect_user
+   * disconnect_player
    * input:
    *    user - 
    * Marks a player as disconnected (they now auto-fold / check)
@@ -136,19 +137,17 @@ class Game{
    * 1) Hand is done/ inactive
    *    We can remove the player immediately
    */
-  disconnect_user(user: any){
-    // if (this.playerUserMapping.has_user(user) === false){
-    //   console.log("disconnecting a non-existant user (probably had 0 chips)");
-    //   return;
-    // }
-    // var actor = this.playerUserMapping.get_player(user);
-    // this.lastDisconnectedPlayer = this.playerUserMapping.get_index(actor);
-    // actor.disconnected = true;
+  disconnect_player(userName: string, uuid: string){
+    //var actor = this.playerUserMapping.get_player(user);
+    this.players.forEach(player => {
+      if (player.name === userName && player.uuid === uuid){
+        player.disconnected = true;
+        if (this.handDone === true){
+          this.remove_player(player);
+        }
+      }
+    });
 
-    // if (this.handDone === true){
-    //   this.remove_player(actor);
-    // }
-    console.log(user);
   }
 
   /**
@@ -530,7 +529,6 @@ class Game{
     else if (this.sharedCards.length === this.RIVER){
       this.showdown();
     }
-
   }
 
   /**
@@ -558,7 +556,6 @@ class Game{
     this.minRaise = this.bigBlindAmount;
     this.lastRaiser = -1;
 
-    this.deck.pop();
     this.add_card_to_shared_cards();
 
     this.actor = this.dealer;
@@ -793,6 +790,8 @@ class Game{
       return false;
     }
     this.pot += addToPot;
+
+    // Calling the big blind means they're calling nobody. They become the last raiser
     if (this.lastRaiser === -1){
       this.lastRaiser = this.actor;
     }
@@ -1000,7 +999,3 @@ class Game{
 
   }
 }
-
-module.exports = {
-  Game,
-};

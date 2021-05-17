@@ -5,13 +5,14 @@ import {HandRanker} from "./hand-ranker";
  * Player
  */
 export class Player{
+  // Player identifier
   name: string;
   uuid: string;
 
   // Player state
   stack = 200;
   hand: Card[];
-  handRanker: HandRanker;
+  handRanker = new HandRanker();
   folded = true;
   isAllIn = false;
   sittingOut= false;
@@ -36,6 +37,10 @@ export class Player{
   constructor(username: string, uuid: string){
     this.name = username;
     this.uuid = uuid;
+  }
+
+  disconnect(){
+    this.disconnected = true;
   }
 
   /**
@@ -221,7 +226,7 @@ export class Player{
     this.lastBetSize = amount;
     this.totalInvestment += amount;
     this.stack -= amount;
-    if (this.stack == 0){
+    if (this.stack === 0){
       this.isAllIn = true;
     }
   }

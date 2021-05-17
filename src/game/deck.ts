@@ -2,10 +2,7 @@ import secureRandomNumber from "random-number-csprng";
 
 /**
  * Card
- *
- * Member variables:
- * suit - The suit of the card
- * rank - The value of the card ranging from 2 to 14. 14 = Ace, 13 = King...
+ * Rank goes from 2 to 14. Ace = 14, King = 13...
  */
 export type Card = {
   suit: string;
@@ -14,14 +11,7 @@ export type Card = {
 
 /**
  * Deck
- *
- * Member variables:
- * deck - the deck of cards from 2 to ace for each of the 4 suits
- * poppedCards - the cards which have been popped from the deck
- *    When the deck is reshuffled, the popped cards must return to the deck
- * allSuits - all of the suits Spades, Hearts, Clubs, and Diamonds
- * rankRange - a range of values from 2 to 14. 14 = Ace, 13 = King
- */
+  */
 export class Deck {
   deck: Card[];
   poppedCards: Card[];
@@ -41,7 +31,6 @@ export class Deck {
 
   /**
    * shuffle
-   *
    * Shuffles the deck with a cryptographically secure random number generator
    *
    * Places the popped cards back into the deck
@@ -61,7 +50,6 @@ export class Deck {
 
   /**
    * pop
-   *
    * Get the card from the top of the deck
    */
   pop() {
