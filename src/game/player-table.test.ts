@@ -115,7 +115,6 @@ describe("The game object", function(){
       playerNames.push(newTable.players[currIndex].name);
       currIndex = newTable.next_actor(currIndex);
     }
-    console.log(playerNames);
     expect(playerNames).toStrictEqual(['rabbit', 'horsea', 'carrot', 'froggy', 'horsea']);
   });
 
@@ -135,7 +134,6 @@ describe("The game object", function(){
       playerNames.push(newTable.players[currIndex].name);
       currIndex = newTable.next_actor(currIndex);
     }
-    console.log(playerNames);
     expect(playerNames).toStrictEqual(['rabbit', 'horsea', 'carrot', 'froggy', 'horsea']);
   });
 });

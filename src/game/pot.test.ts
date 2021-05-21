@@ -32,7 +32,7 @@ describe("The pot", function(){
     });
   });
 
-  it("Gives the winnings to a single player when everyone else folds", async() =>{
+  it("Gives the pot to a single player when everyone else folds", async() =>{
     testPlayers[0].totalInvestment = 40;
     testPlayers[1].totalInvestment = 15;
     testPlayers[2].totalInvestment = 20;
@@ -47,7 +47,7 @@ describe("The pot", function(){
     expect(testPlayers[0].stack).toBe(allChips);
   });
 
-  it("Gives the strongest hand at showdown - uneven betsizes", async() =>{
+  it("Gives the pot to the strongest hand at showdown - uneven betsizes", async() =>{
     testPlayers[0].totalInvestment = 40;
     testPlayers[1].totalInvestment = 15;
     testPlayers[2].totalInvestment = 20;
@@ -67,12 +67,12 @@ describe("The pot", function(){
     testPlayers[3].new_card({suit: 'C', rank: 4});
     testPlayers[3].new_card({suit: 'H', rank: 9});
 
-    testPot.payout_all_pots(testPlayers);
-    expect(testPlayers[3].stack).toBe(120);
+    testPot.payout_all_pots(testPlayers, 0);
     expect(testPlayers[0].stack).toBe(10);
+    expect(testPlayers[3].stack).toBe(120);
   });
 
-  it("Splits the pot amongst players who have tied", async() =>{
+  it("Splits the pot amongst players who have tied, with extra cents to specific players", async() =>{
     testPlayers[0].totalInvestment = 40;
     testPlayers[1].totalInvestment = 15;
     testPlayers[2].totalInvestment = 20;
@@ -84,9 +84,30 @@ describe("The pot", function(){
     testPlayers[3].folded = false;
     testPlayers[4].folded = false;
 
-    testPot.payout_all_pots(testPlayers);
-    testPlayers.forEach(player => {
-      console.log(player.stack);
-    });
+    testPot.payout_all_pots(testPlayers, 2);
+    expect(testPlayers[0].stack).toBe(55.83);
+    expect(testPlayers[3].stack).toBe(45.84);
+    expect(testPlayers[4].stack).toBe(28.33);
+    expect(testPot.sidePotTotals).toStrictEqual([85, 35, 10]);
+  });
+
+  it("Betting over an all-in than folding recognized as folded", async() =>{
+    testPlayers[0].totalInvestment = 40;
+    testPlayers[1].totalInvestment = 15;
+    testPlayers[2].totalInvestment = 20;
+    testPlayers[3].totalInvestment = 30;
+    testPlayers[4].totalInvestment = 15;
+    testPlayers[5].totalInvestment = 10;
+
+    testPlayers[0].folded = false;
+    testPlayers[2].folded = false;
+
+    testPot.payout_all_pots(testPlayers, 0);
+    expect(testPlayers[0].stack).toBe(80);
+    expect(testPlayers[2].stack).toBe(50);
+  });
+
+  it("Resets the pot when reset function is called", async() => {
+    console.log("BLAH");
   });
 });

@@ -125,8 +125,7 @@ export class Pot {
    */
   distribute_side_pots(){
     for (var i = 0; i < this.sidePots.length; i++){
-      this.sidePotTotals[i] = this.distribute_pot(this.sidePotTotals[i], this.sidePotParticipants[i]);
-      this.sidePotTotals[i] = 0;
+      this.distribute_pot(this.sidePotTotals[i], this.sidePotParticipants[i]);
     }
   }
 
@@ -139,23 +138,35 @@ export class Pot {
    * returns:
    * The remainder of chips leftover
    *
-   * Distributes the pot amongst the winners and any remaining chips are added onto next round's
-   * pot.
+   * Distributes the pot amongst the winners, to 2 decimal places
    *
-   * TODO: chips will disappear in a split pot/ mess up we need to fix this
-   * When a player wins chips, the pot subtracts that amount. Therefore, everything will always
-   * sum up. No more math magic shenanigans. Needs testing
    */
   distribute_pot(potAmount: number, sortedParticipants: Player[]){
-    var winnerCount = this.count_winners(sortedParticipants);
-    var individualWinnings = potAmount / winnerCount;
+    let winnerCount = this.count_winners(sortedParticipants);
+    let individualWinnings = potAmount / winnerCount;
+    individualWinnings = parseInt(String(individualWinnings*100)) / 100;
 
     for (var i = 0; i < winnerCount; i++){
       sortedParticipants[i].win_chips(individualWinnings);
       potAmount -= individualWinnings;
+      potAmount = Number(potAmount.toFixed(2));
     }
 
-    return potAmount;
+    let winningParticipant = 0;
+    while (potAmount > 0){
+      sortedParticipants[winningParticipant].win_chips(0.01);
+      potAmount -= 0.01;
+      potAmount = Number(potAmount.toFixed(2));
+      this.cyclic_increment(winningParticipant, winnerCount);
+    }
+
+    return;
+  }
+
+  cyclic_increment(currNum: number, upperBound: number){
+    currNum += 1;
+    currNum = currNum % upperBound;
+    return currNum;
   }
 
   /**
@@ -215,11 +226,18 @@ export class Pot {
    * 2) Create sidepots out of all active players (only happens if the players did not invest
    * the same amount of money)
    */
-  payout_all_pots(allPlayers: Player[]){
+  payout_all_pots(allPlayers: Player[], dealer = 0){
     const playerRanking: Player[] = [];
     const sidePots = new Set<number>();
 
-    allPlayers.forEach((player) => {
+    // rotate player array so that small blind is first, dealer is last
+    allPlayers = allPlayers.concat();
+    let rotatedPlayers: Player[] = []
+    debugger;
+    if (dealer !== allPlayers.length - 1){
+      rotatedPlayers = allPlayers.slice(dealer + 1).concat(allPlayers.slice(0, dealer + 1));
+    }
+    rotatedPlayers.forEach((player) => {
       if (player !== null && !player.folded){
         player.handRanker.score_hand();
         playerRanking.push(player);
@@ -233,7 +251,7 @@ export class Pot {
 
     playerRanking.sort(this.player_hand_comparer);
 
-    this.fill_side_pots(allPlayers);
+    this.fill_side_pots(rotatedPlayers);
     this.evaluate_side_pots(playerRanking);
     this.distribute_side_pots();
   }

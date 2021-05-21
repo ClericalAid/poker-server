@@ -3,7 +3,6 @@ import secureRandomNumber from "random-number-csprng";
 jest.mock("random-number-csprng");
 const mockedSecureRandom = secureRandomNumber as jest.MockedFunction<typeof secureRandomNumber>;
 
-
 describe("The deck", function(){
   let testDeck = new Deck();
   beforeEach(() => {
